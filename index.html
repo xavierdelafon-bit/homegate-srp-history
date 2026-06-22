@@ -1,13 +1,90 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>Homegate SRP History</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        select {
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        img {
+            margin-top: 30px;
+            max-width: 100%;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Homegate SRP History</h1>
 
-    <p>Mon premier screenshot :</p>
+<h1>Homegate SRP History</h1>
 
-    <img src="screenshots/lausanne.png" width="1200">
+<select id="region">
+    <option value="">Choisir une région</option>
+</select>
+
+<button onclick="showScreenshot()">
+    Afficher
+</button>
+
+<br>
+
+<img id="screenshot" />
+
+<script>
+
+const files = [
+    "homegate_geneve_2026-06-16_11-38-36.png",
+    "homegate_fribourg_2026-06-16_11-38-36.png",
+    "homegate_neuchatel_2026-06-16_11-38-36.png",
+    "homegate_sion_2026-06-16_11-38-36.png",
+    "homegate_zug_2026-06-16_11-38-36.png",
+    "homegate_luzern_2026-06-16_11-38-36.png",
+    "homegate_la_chaux_de_fonds_2026-06-16_11-38-36.png"
+];
+
+const regionSelect = document.getElementById("region");
+
+files.forEach(file => {
+
+    const region =
+        file
+        .replace("homegate_", "")
+        .split("_2026")[0];
+
+    const option = document.createElement("option");
+
+    option.value = file;
+    option.textContent = region;
+
+    regionSelect.appendChild(option);
+});
+
+function showScreenshot() {
+
+    const file = regionSelect.value;
+
+    document.getElementById("screenshot").src =
+        "screenshots/" + file;
+}
+
+</script>
+
 </body>
 </html>
+```
