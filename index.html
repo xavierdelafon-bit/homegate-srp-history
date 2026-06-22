@@ -16,7 +16,7 @@
             margin-bottom: 30px;
         }
 
-        select {
+        select, button {
             padding: 8px;
             margin-right: 10px;
         }
@@ -33,55 +33,90 @@
 
 <h1>Homegate SRP History</h1>
 
+<select id="date">
+    <option value="">Choisir une date</option>
+    <option value="2026-06-16">2026-06-16</option>
+</select>
+
 <select id="region">
     <option value="">Choisir une région</option>
 </select>
 
-<button onclick="showScreenshot()">
-    Afficher
-</button>
+<button onclick="showScreenshot()">Afficher</button>
 
 <br>
 
 <img id="screenshot" />
 
 <script>
-
-const files = [
-    "homegate_geneve_2026-06-16_11-38-36.png",
-    "homegate_fribourg_2026-06-16_11-38-36.png",
-    "homegate_neuchatel_2026-06-16_11-38-36.png",
-    "homegate_sion_2026-06-16_11-38-36.png",
-    "homegate_zug_2026-06-16_11-38-36.png",
-    "homegate_luzern_2026-06-16_11-38-36.png",
-    "homegate_la_chaux_de_fonds_2026-06-16_11-38-36.png"
+const data = [
+    {
+        date: "2026-06-16",
+        region: "geneve",
+        file: "screenshots/homegate_geneve_2026-06-16_11-38-36.png"
+    },
+    {
+        date: "2026-06-16",
+        region: "fribourg",
+        file: "screenshots/homegate_fribourg_2026-06-16_11-38-36.png"
+    },
+    {
+        date: "2026-06-16",
+        region: "neuchatel",
+        file: "screenshots/homegate_neuchatel_2026-06-16_11-38-36.png"
+    },
+    {
+        date: "2026-06-16",
+        region: "sion",
+        file: "screenshots/homegate_sion_2026-06-16_11-38-36.png"
+    },
+    {
+        date: "2026-06-16",
+        region: "zug",
+        file: "screenshots/homegate_zug_2026-06-16_11-38-36.png"
+    },
+    {
+        date: "2026-06-16",
+        region: "luzern",
+        file: "screenshots/homegate_luzern_2026-06-16_11-38-36.png"
+    },
+    {
+        date: "2026-06-16",
+        region: "la_chaux_de_fonds",
+        file: "screenshots/homegate_la_chaux_de_fonds_2026-06-16_11-38-36.png"
+    }
 ];
 
 const regionSelect = document.getElementById("region");
 
-files.forEach(file => {
+const regions = [...new Set(data.map(item => item.region))];
 
-    const region =
-        file
-        .replace("homegate_", "")
-        .split("_2026")[0];
-
+regions.forEach(region => {
     const option = document.createElement("option");
-
-    option.value = file;
+    option.value = region;
     option.textContent = region;
-
     regionSelect.appendChild(option);
 });
 
 function showScreenshot() {
+    const selectedDate = document.getElementById("date").value;
+    const selectedRegion = document.getElementById("region").value;
 
-    const file = regionSelect.value;
+    const match = data.find(item =>
+        item.date === selectedDate &&
+        item.region === selectedRegion
+    );
 
-    document.getElementById("screenshot").src =
-        "screenshots/" + file;
+    const img = document.getElementById("screenshot");
+
+    if (match) {
+        img.src = match.file;
+        img.style.display = "block";
+    } else {
+        img.src = "";
+        alert("Aucun screenshot trouvé pour cette date et cette région.");
+    }
 }
-
 </script>
 
 </body>
